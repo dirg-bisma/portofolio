@@ -8,7 +8,7 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://dirga.dev',
+  site: 'https://dirgdev.id',
   output: 'static',
 
   i18n: {

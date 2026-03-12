@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dirga.dev/sitemap-index.xml
+Sitemap: https://dirgdev.id/sitemap-index.xml
