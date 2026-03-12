@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  category: string;
+  slug: string;
+}
+
+const { title, description, date, category, slug } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const lang = currentPath.startsWith('/id') ? 'id' : 'en';
+const t = ui[lang];
+
+const formattedDate = date.toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const detailHref = lang === 'en' ? `/blog/${slug}` : `/id/blog/${slug}`;
+---
+
+<article class="group bg-white border border-[#E4DDD8] rounded-xl overflow-hidden hover:border-[#456882] transition-all flex flex-col h-full">
+  <div class="p-6 flex flex-col h-full">
+    <!-- Meta -->
+    <div class="flex items-center justify-between gap-4 mb-4">
+      <span class="px-2 py-0.5 rounded bg-[#D2C1B6]/20 border border-[#D2C1B6]/30 text-[10px] font-mono font-bold text-[#1B3C53] uppercase tracking-wider">
+        {category}
+      </span>
+      <time datetime={date.toISOString()} class="text-xs font-mono text-[#8A9BA8]">
+        {formattedDate}
+      </time>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1">
+      <h3 class="text-lg font-bold text-[#1B3C53] mb-2 leading-snug group-hover:text-[#456882] transition-colors">
+        <a href={detailHref}>{title}</a>
+      </h3>
+      <p class="text-sm text-[#8A9BA8] leading-relaxed line-clamp-3 mb-6">
+        {description}
+      </p>
+    </div>
+
+    <!-- Link -->
+    <div class="pt-4 border-t border-[#E4DDD8] mt-auto">
+      <a href={detailHref} class="inline-flex items-center gap-1.5 text-sm font-bold text-[#1B3C53] group/link">
+        {t['blog.readArticle']}
+        <Icon name="material-symbols-light:arrow-right-alt-rounded" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+      </a>
+    </div>
+  </div>
+</article>

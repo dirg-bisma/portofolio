@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import TechStackGrid from '../components/TechStackGrid.astro';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+const lang = 'en';
+const t = ui[lang];
+
+const timeline = [
+  { year: '2009', event: 'Started software development — desktop & web applications for SMEs.' },
+  { year: '2013', event: 'Moved into enterprise software, building inventory and accounting modules.' },
+  { year: '2016', event: 'Designed first multi-tenant ERP with role-based access and audit trail.' },
+  { year: '2018', event: 'Expanded into IoT: built first industrial sensor network for a manufacturing client.' },
+  { year: '2020', event: 'Founded Sinergi Teknokarya. Productized ERP and IoT offerings.' },
+  { year: '2022', event: 'Added AI/ML layer: computer vision for production QC, anomaly detection.' },
+  { year: '2024', event: 'Delivering integrated ERP + IoT + AI systems for manufacturing & enterprise.' },
+];
+
+const philosophy = [
+  {
+    title: 'Systems over Features',
+    desc: 'I design systems that are coherent, not just a collection of features. Every component has a clear role.',
+    iconName: 'material-symbols-light:account-tree-outline-rounded',
+  },
+  {
+    title: 'Data as Foundation',
+    desc: 'Good software starts with a good data model. I invest heavily in schema design and data integrity.',
+    iconName: 'material-symbols-light:schema-outline-rounded',
+  },
+  {
+    title: 'Operational Simplicity',
+    desc: 'The best system is one operators can understand and maintain without reading docs every day.',
+    iconName: 'material-symbols-light:build-outline-rounded',
+  },
+  {
+    title: 'Observable by Default',
+    desc: 'Logging, metrics, and tracing are first-class. You should always know what your system is doing.',
+    iconName: 'material-symbols-light:analytics-outline-rounded',
+  },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title="About"
+  description="Learn about Dirga — Software Architect, IoT Engineer, and Founder of Sinergi Teknokarya. Building software since 2009."
+>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <!-- About Hero: two-column -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+      <!-- Left: text -->
+      <div>
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-[0.2em] mb-4">About // System Architect</p>
+        <h1 class="text-4xl sm:text-5xl font-black text-[#1B3C53] leading-[1.1] mb-6">
+          Software Architect.<br />
+          <span class="text-gradient">Systems Builder.</span>
+        </h1>
+        <p class="text-lg text-[#8A9BA8] leading-relaxed mb-4">
+          I'm Dirga — a software architect and IoT engineer with over 15 years of experience designing
+          and building production systems for businesses that depend on them to operate.
+        </p>
+        <p class="text-[#8A9BA8] leading-relaxed mb-8">
+          I founded <strong class="text-[#456882]">Sinergi Teknokarya</strong> to do what I love at scale: take complex
+          business problems and turn them into clean, maintainable, fast software — whether that's a
+          multi-site ERP, an industrial IoT platform, or an AI-powered automation pipeline.
+        </p>
+        <!-- Quick stats -->
+        <div class="flex flex-wrap gap-6 pt-6 border-t border-[#E4DDD8]">
+          {[
+            { value: '15+', label: 'Years Experience' },
+            { value: '100+', label: 'Projects Delivered' },
+            { value: '50+', label: 'Enterprise Systems' },
+          ].map(stat => (
+            <div>
+              <div class="text-2xl font-black text-[#1B3C53] font-mono">{stat.value}</div>
+              <div class="text-xs text-[#8A9BA8] mt-0.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: workspace image -->
+      <div class="relative">
+        <div class="absolute -inset-2 rounded-2xl border border-[#E4DDD8] opacity-50" aria-hidden="true"></div>
+        <div class="relative rounded-xl overflow-hidden shadow-xl shadow-[#1B3C53]/10 border border-[#E4DDD8]">
+          <img
+            src="/images/about-workspace.jpg"
+            alt="Developer workspace — clean desk setup with laptop and code on screen"
+            width="800"
+            height="560"
+            class="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+          <!-- Skills overlay -->
+          <div class="absolute bottom-4 left-4 flex flex-wrap gap-1.5">
+            {['ERP', 'IoT', 'Golang', 'PostgreSQL', 'MQTT', 'AI'].map(item => (
+              <span class="bg-[#1B3C53]/80 backdrop-blur-sm text-white text-xs font-mono px-2 py-1 rounded-md border border-[#456882]/40">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Philosophy -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-6">Engineering Philosophy</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {philosophy.map(p => (
+          <div class="p-6 rounded-xl border border-[#E4DDD8] bg-white group hover:border-[#456882] transition-colors">
+            <div class="w-10 h-10 rounded-lg bg-[#F9F3EF] flex items-center justify-center mb-4 group-hover:bg-[#1B3C53]/10 transition-colors">
+              <Icon name={p.iconName} class="w-6 h-6 text-[#1B3C53]" />
+            </div>
+            <h3 class="font-bold text-[#1B3C53] mb-2">{p.title}</h3>
+            <p class="text-sm text-[#8A9BA8] leading-relaxed">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-8">Timeline</h2>
+      <div class="relative">
+        <div class="absolute left-[3.25rem] top-0 bottom-0 w-px bg-[#E4DDD8] hidden sm:block" aria-hidden="true"></div>
+        <div class="flex flex-col gap-6">
+          {timeline.map(item => (
+            <div class="flex items-start gap-4">
+              <div class="w-16 shrink-0 text-right">
+                <span class="text-sm font-mono font-bold text-[#456882]">{item.year}</span>
+              </div>
+              <div class="relative sm:pl-6 flex-1">
+                <div class="absolute left-0 top-2 w-2 h-2 rounded-full bg-[#D2C1B6] border-2 border-[#456882] hidden sm:block"></div>
+                <p class="text-sm text-[#8A9BA8] leading-relaxed pt-0.5">{item.event}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-6">Technologies</h2>
+      <TechStackGrid />
+    </div>
+
+    <!-- Sinergi Teknokarya -->
+    <div class="p-8 rounded-xl border border-[#E4DDD8] bg-[#1B3C53] text-white">
+      <p class="text-xs font-mono text-[#D2C1B6] uppercase tracking-widest mb-2">Company</p>
+      <h2 class="text-2xl font-bold mb-3">Sinergi Teknokarya</h2>
+      <p class="text-[#D2C1B6] leading-relaxed max-w-2xl mb-6">
+        A technology company specializing in ERP systems, industrial IoT solutions, and AI-powered
+        automation for manufacturing and enterprise clients. We deliver end-to-end systems, from
+        architecture design to production deployment.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/projects" class="text-sm px-4 py-2 rounded-lg bg-white text-[#1B3C53] font-medium hover:bg-[#D2C1B6] transition-colors">
+          See Our Work
+        </a>
+        <a href="/contact" class="text-sm px-4 py-2 rounded-lg border border-[#456882] text-[#D2C1B6] font-medium hover:border-[#D2C1B6] hover:text-white transition-colors">
+          Work With Us
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

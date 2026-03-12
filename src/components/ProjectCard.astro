@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  industry: string;
+  tech: string[];
+  slug: string;
+  featured?: boolean;
+}
+
+const { title, description, industry, tech, slug, featured = false } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const lang = currentPath.startsWith('/id') ? 'id' : 'en';
+const t = ui[lang];
+
+const detailHref = lang === 'en' ? `/projects/${slug}` : `/id/projects/${slug}`;
+---
+
+<div class={`group relative bg-white border border-[#E4DDD8] rounded-xl overflow-hidden hover:border-[#456882] hover:shadow-xl hover:shadow-[#1B3C53]/5 transition-all duration-300 flex flex-col ${featured ? 'md:col-span-2 md:flex-row' : ''}`}>
+  <!-- Image placeholder/Background -->
+  <div class={`relative bg-[#F9F3EF] overflow-hidden ${featured ? 'md:w-2/5 aspect-[4/3] md:aspect-auto' : 'aspect-[16/10]'}`}>
+    <div class="absolute inset-0 flex items-center justify-center text-[#D2C1B6] group-hover:scale-110 transition-transform duration-500">
+      <Icon name="material-symbols-light:widgets-outline-rounded" class="w-16 h-16 opacity-20" />
+    </div>
+    
+    <!-- Industry Badge -->
+    <div class="absolute top-4 left-4">
+      <span class="px-2.5 py-1 rounded-md bg-[#1B3C53]/90 backdrop-blur-sm text-[10px] font-mono font-bold text-white uppercase tracking-wider border border-[#456882]/30">
+        {industry}
+      </span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-6 flex flex-col flex-1">
+    <div class="flex-1">
+      <h3 class="text-xl font-bold text-[#1B3C53] mb-2 group-hover:text-[#456882] transition-colors line-clamp-1">
+        {title}
+      </h3>
+      <p class="text-sm text-[#8A9BA8] leading-relaxed mb-6 line-clamp-2">
+        {description}
+      </p>
+
+      <!-- Tech Stack -->
+      <div class="flex flex-wrap gap-1.5 mb-6">
+        {tech.map(item => (
+          <span class="px-2 py-0.5 rounded bg-[#F9F3EF] border border-[#E4DDD8] text-[10px] font-medium text-[#456882]">
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-between pt-4 border-t border-[#E4DDD8]">
+      <a href={detailHref} class="inline-flex items-center gap-1.5 text-sm font-bold text-[#1B3C53] group/link">
+        {t['project.details']}
+        <Icon name="material-symbols-light:arrow-right-alt-rounded" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+      </a>
+      
+      <div class="flex items-center gap-3">
+        <button class="text-[#8A9BA8] hover:text-[#1B3C53] transition-colors" aria-label="Github link">
+          <Icon name="material-symbols-light:code-blocks-outline-rounded" class="w-5 h-5" />
+        </button>
+        <button class="text-[#8A9BA8] hover:text-[#1B3C53] transition-colors" aria-label="External link">
+          <Icon name="material-symbols-light:open-in-new-rounded" class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

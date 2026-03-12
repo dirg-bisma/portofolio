@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+const currentPath = Astro.url.pathname;
+const lang = currentPath.startsWith('/id') ? 'id' : 'en';
+const t = ui[lang];
+---
+
+<section class="bg-[#F9F3EF] pt-14 pb-20">
+  <div class="container-custom">
+    <!-- Eyebrow -->
+    <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-[0.2em] mb-6">
+      {t['hero.eyebrow']}
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <!-- Left: Text -->
+      <div>
+        <!-- Status badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#E4DDD8] bg-white mb-6">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-mono text-[#456882]">{t['hero.status']}</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-5xl font-black text-[#1B3C53] leading-[1.1] mb-6">
+          {t['hero.headline.1']}<span class="text-[#D2C1B6]"> •</span><br />
+          {t['hero.headline.2']}<span class="text-[#D2C1B6]"> •</span><br />
+          {t['hero.headline.3']}
+        </h1>
+
+        <!-- Subtext -->
+        <p class="text-base text-[#8A9BA8] leading-relaxed mb-8">
+          {t['hero.subtext']}
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-3 mb-10">
+          <a
+            href={lang === 'en' ? '/projects' : '/id/projects'}
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1B3C53] text-white font-semibold rounded-lg hover:bg-[#456882] transition-colors text-sm"
+          >
+            {t['hero.cta.portfolio']}
+            <Icon name="material-symbols-light:arrow-right-alt-rounded" class="w-5 h-5" />
+          </a>
+          <a
+            href={lang === 'en' ? '/contact' : '/id/contact'}
+            class="inline-flex items-center gap-2 px-5 py-2.5 border border-[#E4DDD8] bg-white text-[#1B3C53] font-semibold rounded-lg hover:border-[#456882] transition-colors text-sm"
+          >
+            <Icon name="material-symbols-light:chat-bubble-outline-rounded" class="w-4 h-4 text-[#456882]" />
+            {t['hero.cta.contact']}
+          </a>
+        </div>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-8 pt-8 border-t border-[#E4DDD8]">
+          {[
+            { label: t['hero.stat.exp'], value: '15+' },
+            { label: t['hero.stat.deploy'], value: '100+' },
+            { label: t['hero.stat.arch'], value: '50+' },
+          ].map(stat => (
+            <div>
+              <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-1">{stat.label}</p>
+              <p class="text-3xl font-black text-[#1B3C53]">{stat.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: Hero Image -->
+      <div class="relative">
+        <div class="absolute -inset-3 rounded-2xl border border-[#E4DDD8] opacity-60" aria-hidden="true"></div>
+        <div class="relative rounded-xl overflow-hidden shadow-2xl shadow-[#1B3C53]/10 border border-[#E4DDD8]">
+          <img
+            src="/images/hero-workspace.jpg"
+            alt="Software architect workstation with multiple monitors showing code and architecture diagrams"
+            width="800"
+            height="560"
+            class="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+          <!-- Overlay badge -->
+          <div class="absolute bottom-4 right-4 bg-[#1B3C53]/90 backdrop-blur-sm text-white text-xs font-mono px-3 py-2 rounded-lg border border-[#456882]/40">
+            CURRENT_STACK<br />
+            <span class="text-[#D2C1B6] text-[10px]">Go · PostgreSQL · React · MQTT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

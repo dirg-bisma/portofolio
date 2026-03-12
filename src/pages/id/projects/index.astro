@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { ui } from '../../../utils/i18n';
+
+const lang = 'id';
+const t = ui[lang];
+
+const allProjects = await getCollection('projects', ({ data }) => data.lang === lang);
+const sorted = allProjects.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return (b.data.year ?? 0) - (a.data.year ?? 0);
+});
+
+const industries = [...new Set(allProjects.map(p => p.data.industry))].sort();
+---
+
+<BaseLayout
+  lang={lang}
+  title="Proyek"
+  description="Portofolio proyek perangkat lunak, ERP, IoT, dan AI oleh Dirga. Sistem nyata yang dibangun untuk industri nyata."
+>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <!-- Header -->
+    <div class="mb-12">
+      <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-2">Karya</p>
+      <h1 class="text-4xl font-bold text-[#1B3C53] mb-4">{t['nav.projects']}</h1>
+      <p class="text-[#8A9BA8] max-w-2xl">
+        Kumpulan sistem, platform, dan produk yang dibangun di berbagai industri manufaktur, perangkat lunak perusahaan, IoT, dan AI.
+      </p>
+    </div>
+
+    <!-- Industry filters -->
+    {industries.length > 1 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="text-xs font-mono text-[#8A9BA8] self-center mr-2">Filter:</span>
+        {industries.map(ind => (
+          <span class="text-xs px-3 py-1 rounded-full border border-[#E4DDD8] text-[#456882] hover:border-[#456882] cursor-default transition-colors">
+            {ind}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Projects grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {sorted.map(project => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          industry={project.data.industry}
+          tech={project.data.tech}
+          slug={project.id.split('/').pop()!}
+          featured={project.data.featured}
+        />
+      ))}
+    </div>
+
+    {sorted.length === 0 && (
+      <div class="text-center py-20 text-[#8A9BA8]">
+        <p class="text-lg">Belum ada proyek — cek kembali segera.</p>
+      </div>
+    )}
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

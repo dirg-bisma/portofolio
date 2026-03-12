@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../../../utils/i18n';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('caseStudies', ({ data }) => data.lang === 'id');
+  return studies.map(study => ({
+    params: { slug: study.id.split('/').pop()! },
+    props: { study },
+  }));
+}
+
+const lang = 'id';
+const t = ui[lang];
+const { study } = Astro.props;
+const { Content } = await render(study);
+
+const { title, description, client, industry, tech, date, duration, outcome } = study.data;
+
+const formattedDate = new Intl.DateTimeFormat('id-ID', {
+  year: 'numeric',
+  month: 'long',
+}).format(date);
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <!-- Breadcrumb -->
+    <nav class="text-xs text-[#8A9BA8] mb-8 font-mono flex items-center gap-1.5">
+      <a href="/id" class="hover:text-[#456882] transition-colors">{t['nav.home']}</a>
+      <span>/</span>
+      <span class="text-[#456882]">{t['nav.caseStudies']}</span>
+      <span>/</span>
+      <span class="text-[#456882]">{title}</span>
+    </nav>
+
+    <div class="max-w-3xl">
+      <!-- Header -->
+      <div class="mb-10">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1B3C53]/10 text-[#1B3C53]">
+            {industry}
+          </span>
+          <span class="text-xs text-[#8A9BA8] font-mono">{formattedDate}</span>
+        </div>
+        <h1 class="text-4xl font-bold text-[#1B3C53] mb-4">{title}</h1>
+        <p class="text-lg text-[#8A9BA8] leading-relaxed">{description}</p>
+      </div>
+
+      <!-- Meta cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+        <div class="p-4 rounded-xl border border-[#E4DDD8] bg-white">
+          <p class="text-xs text-[#8A9BA8] font-mono mb-1">Klien</p>
+          <p class="text-sm font-semibold text-[#1B3C53]">{client}</p>
+        </div>
+        <div class="p-4 rounded-xl border border-[#E4DDD8] bg-white">
+          <p class="text-xs text-[#8A9BA8] font-mono mb-1">Industri</p>
+          <p class="text-sm font-semibold text-[#1B3C53]">{industry}</p>
+        </div>
+        {duration && (
+          <div class="p-4 rounded-xl border border-[#E4DDD8] bg-white">
+            <p class="text-xs text-[#8A9BA8] font-mono mb-1">Durasi</p>
+            <p class="text-sm font-semibold text-[#1B3C53]">{duration}</p>
+          </div>
+        )}
+        {outcome && (
+          <div class="p-4 rounded-xl border border-[#E4DDD8] bg-[#1B3C53]">
+            <p class="text-xs text-[#D2C1B6] font-mono mb-1">Hasil</p>
+            <p class="text-sm font-semibold text-white">{outcome}</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="mb-10 p-5 rounded-xl border border-[#E4DDD8] bg-white">
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-3">Teknologi yang Digunakan</p>
+        <div class="flex flex-wrap gap-2">
+          {tech.map(item => (
+            <span class="text-sm font-mono px-3 py-1 rounded-md bg-[#F9F3EF] border border-[#E4DDD8] text-[#1B3C53]">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="prose-custom">
+        <Content />
+      </div>
+
+      <!-- Back -->
+      <div class="mt-12 pt-8 border-t border-[#E4DDD8] flex items-center gap-4">
+        <a href="/id/projects" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors flex items-center gap-1.5">
+          <Icon name="material-symbols-light:arrow-left-alt-rounded" class="w-5 h-5" />
+          {t['section.viewAll']}
+        </a>
+        <a href="/id/contact" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors flex items-center gap-1">
+          {t['nav.letsTalk']}
+          <Icon name="material-symbols-light:arrow-right-alt-rounded" class="w-5 h-5" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

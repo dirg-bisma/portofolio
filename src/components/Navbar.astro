@@ -1,0 +1,140 @@
+---
+import { Icon } from 'astro-icon/components';
+import { ui, defaultLang } from '../utils/i18n';
+
+const currentPath = Astro.url.pathname;
+const lang = currentPath.startsWith('/id') ? 'id' : 'en';
+const t = ui[lang];
+
+const navLinks = [
+  { href: lang === 'en' ? '/' : '/id', label: t['nav.home'] },
+  { href: lang === 'en' ? '/projects' : '/id/projects', label: t['nav.projects'] },
+  { href: lang === 'en' ? '/case-studies' : '/id/case-studies', label: t['nav.caseStudies'] },
+  { href: lang === 'en' ? '/blog' : '/id/blog', label: t['nav.blog'] },
+  { href: lang === 'en' ? '/about' : '/id/about', label: t['nav.about'] },
+  { href: lang === 'en' ? '/contact' : '/id/contact', label: t['nav.contact'] },
+];
+
+const isActive = (href: string) => {
+  const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+  const normalizedHref = href.replace(/\/$/, '') || '/';
+  return normalizedPath === normalizedHref;
+};
+---
+
+<header class="sticky top-0 z-50 bg-[#F9F3EF]/90 backdrop-blur-md border-b border-[#E4DDD8]">
+  <nav class="container-custom flex items-center justify-between h-16">
+    <!-- Logo -->
+    <a href={lang === 'en' ? '/' : '/id'} class="flex items-center gap-2 group" aria-label="Dirga — Home">
+      <div class="w-8 h-8 rounded-lg bg-[#1B3C53] flex items-center justify-center text-white font-mono font-bold text-sm group-hover:bg-[#456882] transition-colors">
+        D/
+      </div>
+      <span class="font-semibold text-[#1B3C53] hidden sm:block tracking-tight">dirga.dev</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden md:flex items-center gap-1">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              isActive(link.href)
+                ? 'bg-[#1B3C53] text-white'
+                : 'text-[#456882] hover:text-[#1B3C53] hover:bg-[#E4DDD8]'
+            }`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Right Side: Lang Switcher + CTA -->
+    <div class="hidden md:flex items-center gap-3">
+      <!-- Language Switcher -->
+      <div class="relative group">
+        <select
+          id="lang-selector"
+          class="appearance-none bg-white border border-[#E4DDD8] rounded-lg px-3 py-1.5 pr-8 text-xs font-medium text-[#456882] hover:border-[#456882] focus:outline-none focus:ring-2 focus:ring-[#1B3C53]/10 cursor-pointer transition-all"
+          onchange="window.location.href = this.value"
+        >
+          <option value={currentPath.replace(/^\/id/, '') || '/'} selected={lang === 'en'}>EN</option>
+          <option value={'/id' + (currentPath.replace(/^\/id/, '') || '/').replace(/\/$/, '')} selected={lang === 'id'}>ID</option>
+        </select>
+        <div class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#8A9BA8]">
+          <Icon name="material-symbols-light:keyboard-arrow-down-rounded" class="w-4 h-4" />
+        </div>
+      </div>
+
+      <a
+        href={lang === 'en' ? '/contact' : '/id/contact'}
+        class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B3C53] text-white text-sm font-medium rounded-lg hover:bg-[#456882] transition-colors"
+      >
+        <Icon name="material-symbols-light:chat-bubble-outline-rounded" class="w-4 h-4" />
+        {t['nav.letsTalk']}
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center gap-2 md:hidden">
+        <!-- Mobile Lang Switcher -->
+        <select
+          class="bg-transparent border-none text-xs font-mono font-bold text-[#1B3C53] focus:outline-none cursor-pointer"
+          onchange="window.location.href = this.value"
+        >
+          <option value={currentPath.replace(/^\/id/, '') || '/'} selected={lang === 'en'}>EN</option>
+          <option value={'/id' + (currentPath.replace(/^\/id/, '') || '/').replace(/\/$/, '')} selected={lang === 'id'}>ID</option>
+        </select>
+
+        <button
+          id="menu-btn"
+          class="p-2 rounded-md text-[#456882] hover:text-[#1B3C53] hover:bg-[#E4DDD8] transition-colors"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <Icon id="icon-open" name="material-symbols-light:menu-rounded" class="w-5 h-5" />
+          <Icon id="icon-close" name="material-symbols-light:close-rounded" class="w-5 h-5 hidden" />
+        </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-[#E4DDD8] bg-[#F9F3EF]">
+    <div class="container-custom py-3 flex flex-col gap-1">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+            isActive(link.href)
+              ? 'bg-[#1B3C53] text-white'
+              : 'text-[#456882] hover:text-[#1B3C53] hover:bg-[#E4DDD8]'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={lang === 'en' ? '/contact' : '/id/contact'}
+        class="mt-2 px-3 py-2.5 bg-[#1B3C53] text-white text-sm font-medium rounded-md text-center hover:bg-[#456882] transition-colors"
+      >
+        {t['nav.letsTalk']}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden', isOpen);
+    iconOpen?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>

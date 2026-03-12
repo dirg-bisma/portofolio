@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import TechStackGrid from '../../components/TechStackGrid.astro';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../../utils/i18n';
+
+const lang = 'id';
+const t = ui[lang];
+
+const timeline = [
+  { year: '2009', event: 'Mulai pengembangan perangkat lunak — aplikasi desktop & web untuk UKM.' },
+  { year: '2013', event: 'Beralih ke perangkat lunak perusahaan, membangun modul inventaris dan akuntansi.' },
+  { year: '2016', event: 'Merancang ERP multi-tenant pertama dengan akses berbasis peran dan audit trail.' },
+  { year: '2018', event: 'Ekspansi ke IoT: membangun jaringan sensor industri pertama untuk klien manufaktur.' },
+  { year: '2020', event: 'Mendirikan Sinergi Teknokarya. Memproduksi penawaran ERP dan IoT.' },
+  { year: '2022', event: 'Menambahkan lapisan AI/ML: visi komputer untuk QC produksi, deteksi anomali.' },
+  { year: '2024', event: 'Memberikan sistem ERP + IoT + AI terintegrasi untuk manufaktur & perusahaan.' },
+];
+
+const philosophy = [
+  {
+    title: 'Sistem di atas Fitur',
+    desc: 'Saya merancang sistem yang koheren, bukan sekadar kumpulan fitur. Setiap komponen memiliki peran yang jelas.',
+    iconName: 'material-symbols-light:account-tree-outline-rounded',
+  },
+  {
+    title: 'Data sebagai Pondasi',
+    desc: 'Perangkat lunak yang baik dimulai dengan model data yang baik. Saya berinvestasi besar dalam desain skema dan integritas data.',
+    iconName: 'material-symbols-light:schema-outline-rounded',
+  },
+  {
+    title: 'Kesederhaan Operasional',
+    desc: 'Sistem terbaik adalah yang dapat dipahami dan dipelihara oleh operator tanpa membaca dokumen setiap hari.',
+    iconName: 'material-symbols-light:build-outline-rounded',
+  },
+  {
+    title: 'Dapat Diamati secara Default',
+    desc: 'Logging, metrik, dan penelusuran adalah prioritas utama. Anda harus selalu tahu apa yang sedang dilakukan sistem Anda.',
+    iconName: 'material-symbols-light:analytics-outline-rounded',
+  },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title="Tentang"
+  description="Pelajari tentang Dirga — Software Architect, IoT Engineer, dan Pendiri Sinergi Teknokarya. Membangun perangkat lunak sejak 2009."
+>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <!-- About Hero: two-column -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+      <!-- Left: text -->
+      <div>
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-[0.2em] mb-4">Tentang // Arsitek Sistem</p>
+        <h1 class="text-4xl sm:text-5xl font-black text-[#1B3C53] leading-[1.1] mb-6">
+          Arsitek Perangkat Lunak.<br />
+          <span class="text-gradient">Pembangun Sistem.</span>
+        </h1>
+        <p class="text-lg text-[#8A9BA8] leading-relaxed mb-4">
+          Saya Dirga — arsitek perangkat lunak dan insinyur IoT dengan lebih dari 15 tahun pengalaman merancang
+          dan membangun sistem produksi untuk bisnis yang bergantung padanya untuk beroperasi.
+        </p>
+        <p class="text-[#8A9BA8] leading-relaxed mb-8">
+          Saya mendirikan <strong class="text-[#456882]">Sinergi Teknokarya</strong> untuk melakukan apa yang saya cintai dalam skala besar: mengambil masalah
+          bisnis yang kompleks dan mengubahnya menjadi perangkat lunak yang bersih, mudah dipelihara, dan cepat — baik itu
+          ERP multi-site, platform IoT industri, atau pipa otomasi berbasis AI.
+        </p>
+        <!-- Quick stats -->
+        <div class="flex flex-wrap gap-6 pt-6 border-t border-[#E4DDD8]">
+          {[
+            { value: '15+', label: 'Tahun Pengalaman' },
+            { value: '100+', label: 'Proyek Selesai' },
+            { value: '50+', label: 'Sistem Perusahaan' },
+          ].map(stat => (
+            <div>
+              <div class="text-2xl font-black text-[#1B3C53] font-mono">{stat.value}</div>
+              <div class="text-xs text-[#8A9BA8] mt-0.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: workspace image -->
+      <div class="relative">
+        <div class="absolute -inset-2 rounded-2xl border border-[#E4DDD8] opacity-50" aria-hidden="true"></div>
+        <div class="relative rounded-xl overflow-hidden shadow-xl shadow-[#1B3C53]/10 border border-[#E4DDD8]">
+          <img
+            src="/images/about-workspace.jpg"
+            alt="Ruang kerja pengembang — setup meja bersih dengan laptop dan kode di layar"
+            width="800"
+            height="560"
+            class="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+          <!-- Skills overlay -->
+          <div class="absolute bottom-4 left-4 flex flex-wrap gap-1.5">
+            {['ERP', 'IoT', 'Golang', 'PostgreSQL', 'MQTT', 'AI'].map(item => (
+              <span class="bg-[#1B3C53]/80 backdrop-blur-sm text-white text-xs font-mono px-2 py-1 rounded-md border border-[#456882]/40">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Philosophy -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-6">Filosofi Rekayasa</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {philosophy.map(p => (
+          <div class="p-6 rounded-xl border border-[#E4DDD8] bg-white group hover:border-[#456882] transition-colors">
+            <div class="w-10 h-10 rounded-lg bg-[#F9F3EF] flex items-center justify-center mb-4 group-hover:bg-[#1B3C53]/10 transition-colors">
+              <Icon name={p.iconName} class="w-6 h-6 text-[#1B3C53]" />
+            </div>
+            <h3 class="font-bold text-[#1B3C53] mb-2">{p.title}</h3>
+            <p class="text-sm text-[#8A9BA8] leading-relaxed">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-8">Garis Waktu</h2>
+      <div class="relative">
+        <div class="absolute left-[3.25rem] top-0 bottom-0 w-px bg-[#E4DDD8] hidden sm:block" aria-hidden="true"></div>
+        <div class="flex flex-col gap-6">
+          {timeline.map(item => (
+            <div class="flex items-start gap-4">
+              <div class="w-16 shrink-0 text-right">
+                <span class="text-sm font-mono font-bold text-[#456882]">{item.year}</span>
+              </div>
+              <div class="relative sm:pl-6 flex-1">
+                <div class="absolute left-0 top-2 w-2 h-2 rounded-full bg-[#D2C1B6] border-2 border-[#456882] hidden sm:block"></div>
+                <p class="text-sm text-[#8A9BA8] leading-relaxed pt-0.5">{item.event}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold text-[#1B3C53] mb-6">Teknologi</h2>
+      <TechStackGrid />
+    </div>
+
+    <!-- Sinergi Teknokarya -->
+    <div class="p-8 rounded-xl border border-[#E4DDD8] bg-[#1B3C53] text-white">
+      <p class="text-xs font-mono text-[#D2C1B6] uppercase tracking-widest mb-2">Perusahaan</p>
+      <h2 class="text-2xl font-bold mb-3">Sinergi Teknokarya</h2>
+      <p class="text-[#D2C1B6] leading-relaxed max-w-2xl mb-6">
+        Perusahaan teknologi yang berspesialisasi dalam sistem ERP, solusi IoT industri, dan otomasi berbasis AI
+        untuk klien manufaktur dan perusahaan. Kami memberikan sistem end-to-end, dari desain arsitektur
+        hingga implementasi produksi.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/id/projects" class="text-sm px-4 py-2 rounded-lg bg-white text-[#1B3C53] font-medium hover:bg-[#D2C1B6] transition-colors">
+          Lihat Karya Kami
+        </a>
+        <a href="/id/contact" class="text-sm px-4 py-2 rounded-lg border border-[#456882] text-[#D2C1B6] font-medium hover:border-[#D2C1B6] hover:text-white transition-colors">
+          Bekerja Bersama Kami
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

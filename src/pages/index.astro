@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import HeroSection from '../components/HeroSection.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+const lang = 'en';
+const t = ui[lang];
+
+const allProjects = await getCollection('projects', ({ data }) => data.lang === lang);
+const featuredProjects = allProjects
+  .filter(p => p.data.featured)
+  .slice(0, 3);
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft && data.lang === lang);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const services = [
+  {
+    iconName: 'material-symbols-light:factory-rounded',
+    title: 'Enterprise ERP',
+    desc: 'End-to-end ERP systems tailored for manufacturing, distribution, and services companies.',
+    tags: ['Golang', 'PostgreSQL', 'React'],
+  },
+  {
+    iconName: 'material-symbols-light:sensors-rounded',
+    title: 'Industrial IoT',
+    desc: 'Edge-to-cloud IoT architectures for real-time monitoring, control, and analytics.',
+    tags: ['MQTT', 'ESP32', 'Golang'],
+  },
+  {
+    iconName: 'material-symbols-light:smart-toy-rounded',
+    title: 'AI Automation',
+    desc: 'Computer vision and AI-powered systems for quality control, counting, and predictive ops.',
+    tags: ['YOLOv8', 'Python', 'OpenCV'],
+  },
+  {
+    iconName: 'material-symbols-light:code-blocks-rounded',
+    title: 'Custom Software',
+    desc: 'Bespoke software solutions designed to solve specific business challenges at scale.',
+    tags: ['Architecture', 'API', 'Cloud'],
+  },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title="Dirga — Software Architect & IoT Engineer"
+  description="Portfolio of Dirga, Software Architect, System Analyst, and Founder of Sinergi Teknokarya. Building ERP, IoT, and AI systems since 2009."
+>
+  <Navbar slot="nav" />
+
+  <!-- Hero -->
+  <HeroSection />
+
+  <!-- Services -->
+  <section class="section-padding border-t border-[#E4DDD8]">
+    <div class="container-custom">
+      <div class="mb-10">
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-2">{t['section.coreExpertise']}</p>
+        <h2 class="text-3xl font-bold text-[#1B3C53]">{t['section.coreExpertise']}</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {services.map(s => (
+          <div class="p-6 rounded-xl border border-[#E4DDD8] bg-white hover:border-[#456882] hover:shadow-sm transition-all group">
+            <div class="w-12 h-12 rounded-lg bg-[#F9F3EF] flex items-center justify-center mb-4 group-hover:bg-[#1B3C53]/10 transition-colors">
+              <Icon name={s.iconName} class="w-7 h-7 text-[#1B3C53]" />
+            </div>
+            <h3 class="font-bold text-[#1B3C53] mb-2">{s.title}</h3>
+            <p class="text-sm text-[#8A9BA8] leading-relaxed mb-4">{s.desc}</p>
+            <div class="flex flex-wrap gap-1">
+              {s.tags.map(tag => (
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-[#F9F3EF] border border-[#E4DDD8] text-[#456882]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  {featuredProjects.length > 0 && (
+    <section class="section-padding bg-white border-y border-[#E4DDD8]">
+      <div class="container-custom">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-1">// portfolio — Featured</p>
+            <h2 class="text-3xl font-bold text-[#1B3C53]">{t['section.featuredProjects']}</h2>
+          </div>
+          <a href="/projects" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors hidden sm:flex items-center gap-1">
+            {t['section.viewAll']}
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+        <div class="flex flex-col gap-5">
+          {featuredProjects.map(project => (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description}
+              industry={project.data.industry}
+              tech={project.data.tech}
+              slug={project.id.split('/').pop()!}
+              featured={project.data.featured}
+            />
+          ))}
+        </div>
+        <div class="mt-6 sm:hidden">
+          <a href="/projects" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors">
+            {t['section.viewAll']} →
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+
+  <!-- Blog Highlights -->
+  {recentPosts.length > 0 && (
+    <section class="section-padding">
+      <div class="container-custom">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-2">Writing</p>
+            <h2 class="text-3xl font-bold text-[#1B3C53]">{t['section.latestArticles']}</h2>
+          </div>
+          <a href="/blog" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors hidden sm:block">
+            {t['section.allArticles']} →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {recentPosts.map(post => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              category={post.data.category}
+              slug={post.id.split('/').pop()!}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA Strip -->
+  <section class="bg-[#1B3C53] py-16">
+    <div class="container-custom text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">
+        Have a project in mind?
+      </h2>
+      <p class="text-[#D2C1B6] mb-8 max-w-xl mx-auto">
+        Whether it's an ERP system, an IoT platform, or AI automation — let's talk about turning complex problems into working systems.
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#1B3C53] font-semibold rounded-lg hover:bg-[#D2C1B6] transition-colors"
+      >
+        Start a Conversation
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>

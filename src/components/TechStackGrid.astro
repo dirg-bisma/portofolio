@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const techs = [
+  { label: 'Golang', iconName: 'material-symbols-light:deployed-code' },
+  { label: 'PostgreSQL', iconName: 'material-symbols-light:database' },
+  { label: 'React', iconName: 'material-symbols-light:layers-outline-rounded' },
+  { label: 'MQTT', iconName: 'material-symbols-light:sensors-rounded' },
+  { label: 'Kubernetes', iconName: 'material-symbols-light:grid-view-outline-rounded' },
+  { label: 'ESP32', iconName: 'material-symbols-light:memory-rounded' },
+  { label: 'YOLOv8', iconName: 'material-symbols-light:visibility-rounded' },
+  { label: 'Docker', iconName: 'material-symbols-light:package-outline-rounded' },
+  { label: 'Redis', iconName: 'material-symbols-light:bolt-rounded' },
+  { label: 'Astro', iconName: 'material-symbols-light:rocket-launch-outline-rounded' },
+  { label: 'Python', iconName: 'material-symbols-light:code-blocks-outline-rounded' },
+  { label: 'TypeScript', iconName: 'material-symbols-light:terminal-rounded' },
+];
+---
+
+<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+  {techs.map(({ label, iconName }) => (
+    <div class="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#E4DDD8] bg-white hover:border-[#456882] hover:shadow-sm transition-all group cursor-default">
+      <Icon name={iconName} class="w-8 h-8 text-[#1B3C53]/40 group-hover:text-[#1B3C53] transition-colors" />
+      <span class="text-[10px] font-mono font-medium text-[#8A9BA8] group-hover:text-[#1B3C53] transition-colors text-center leading-tight uppercase tracking-wider">
+        {label}
+      </span>
+    </div>
+  ))}
+</div>

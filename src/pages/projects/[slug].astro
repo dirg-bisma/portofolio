@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../../utils/i18n';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.lang === 'en');
+  return projects.map(project => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const lang = 'en';
+const t = ui[lang];
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const {
+  title,
+  description,
+  industry,
+  tech,
+  featured,
+  status = 'production',
+  year,
+} = project.data;
+
+const statusLabels: Record<string, string> = {
+  production: '🟢 Production',
+  development: '🟡 In Development',
+  archived: '⚫ Archived',
+};
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <!-- Breadcrumb -->
+    <nav class="text-xs text-[#8A9BA8] mb-8 font-mono flex items-center gap-1.5">
+      <a href="/" class="hover:text-[#456882] transition-colors">{t['nav.home']}</a>
+      <span>/</span>
+      <a href="/projects" class="hover:text-[#456882] transition-colors">{t['nav.projects']}</a>
+      <span>/</span>
+      <span class="text-[#456882]">{title}</span>
+    </nav>
+
+    <div class="max-w-3xl">
+      <!-- Badges -->
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1B3C53]/10 text-[#1B3C53]">
+          {industry}
+        </span>
+        {featured && (
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-[#D2C1B6] text-[#1B3C53]">
+            ★ Featured
+          </span>
+        )}
+        <span class="text-xs text-[#8A9BA8] font-mono">{statusLabels[status]}</span>
+        {year && <span class="text-xs text-[#8A9BA8] font-mono">· {year}</span>}
+      </div>
+
+      <!-- Title & description -->
+      <h1 class="text-4xl font-bold text-[#1B3C53] mb-4">{title}</h1>
+      <p class="text-lg text-[#8A9BA8] leading-relaxed mb-8">{description}</p>
+
+      <!-- Tech Stack -->
+      <div class="mb-10 p-5 rounded-xl border border-[#E4DDD8] bg-white">
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-3">Tech Stack</p>
+        <div class="flex flex-wrap gap-2">
+          {tech.map(item => (
+            <span class="text-sm font-mono px-3 py-1 rounded-md bg-[#F9F3EF] border border-[#E4DDD8] text-[#1B3C53]">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="prose-custom">
+        <Content />
+      </div>
+
+      <!-- Back link -->
+      <div class="mt-12 pt-8 border-t border-[#E4DDD8]">
+        <a href="/projects" class="text-sm text-[#456882] hover:text-[#1B3C53] transition-colors flex items-center gap-1.5">
+          <Icon name="material-symbols-light:arrow-left-alt-rounded" class="w-5 h-5" />
+          {t['section.viewAll']}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

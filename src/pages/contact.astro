@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { Icon } from 'astro-icon/components';
+import { ui } from '../utils/i18n';
+
+const lang = 'en';
+const t = ui[lang];
+---
+
+<BaseLayout
+  lang={lang}
+  title="Contact"
+  description="Get in touch with Dirga. Available for consulting, architecture review, and new project partnerships."
+>
+  <Navbar slot="nav" />
+
+  <div class="container-custom section-padding">
+    <div class="max-w-2xl mx-auto">
+      <!-- Header -->
+      <div class="mb-10">
+        <p class="text-xs font-mono text-[#8A9BA8] uppercase tracking-widest mb-2">Contact</p>
+        <h1 class="text-4xl font-bold text-[#1B3C53] mb-4">{t['nav.letsTalk']}</h1>
+        <p class="text-[#8A9BA8] leading-relaxed">
+          Whether you're building an ERP from scratch, modernizing an IoT system, or exploring AI
+          automation — feel free to reach out. I'm always happy to discuss architecture and technical challenges.
+        </p>
+      </div>
+
+      <!-- Contact form -->
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        class="flex flex-col gap-5 mb-12"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-[#1B3C53]">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            placeholder="Your name"
+            class="px-4 py-2.5 rounded-lg border border-[#E4DDD8] bg-white text-sm text-[#1B3C53] placeholder-[#8A9BA8] focus:outline-none focus:border-[#456882] focus:ring-2 focus:ring-[#456882]/20 transition-all"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-[#1B3C53]">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="you@company.com"
+            class="px-4 py-2.5 rounded-lg border border-[#E4DDD8] bg-white text-sm text-[#1B3C53] placeholder-[#8A9BA8] focus:outline-none focus:border-[#456882] focus:ring-2 focus:ring-[#456882]/20 transition-all"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="subject" class="text-sm font-medium text-[#1B3C53]">Subject</label>
+          <select
+            id="subject"
+            name="subject"
+            class="px-4 py-2.5 rounded-lg border border-[#E4DDD8] bg-white text-sm text-[#1B3C53] focus:outline-none focus:border-[#456882] focus:ring-2 focus:ring-[#456882]/20 transition-all"
+          >
+            <option value="">Select a topic…</option>
+            <option value="erp">ERP System Development</option>
+            <option value="iot">Industrial IoT Platform</option>
+            <option value="ai">AI Automation</option>
+            <option value="custom">Custom Software</option>
+            <option value="consulting">Architecture Consulting</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="message" class="text-sm font-medium text-[#1B3C53]">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            placeholder="Describe your project or challenge…"
+            class="px-4 py-2.5 rounded-lg border border-[#E4DDD8] bg-white text-sm text-[#1B3C53] placeholder-[#8A9BA8] focus:outline-none focus:border-[#456882] focus:ring-2 focus:ring-[#456882]/20 transition-all resize-none"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="px-6 py-3 bg-[#1B3C53] text-white font-medium rounded-lg hover:bg-[#456882] transition-colors flex items-center justify-center gap-2"
+        >
+          Send Message
+          <Icon name="material-symbols-light:send-rounded" class="w-4 h-4" />
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="relative my-8">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-[#E4DDD8]"></div></div>
+        <div class="relative flex justify-center">
+          <span class="bg-[#F9F3EF] px-3 text-xs text-[#8A9BA8] font-mono">or reach me directly</span>
+        </div>
+      </div>
+
+      <!-- Direct links -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a
+          href="mailto:hello@dirga.dev"
+          class="flex items-center gap-3 p-4 rounded-xl border border-[#E4DDD8] bg-white hover:border-[#456882] hover:shadow-sm transition-all group"
+        >
+          <div class="w-9 h-9 rounded-lg bg-[#1B3C53]/10 flex items-center justify-center">
+            <Icon name="material-symbols-light:mail-outline-rounded" class="w-5 h-5 text-[#1B3C53]" />
+          </div>
+          <div>
+            <p class="text-xs text-[#8A9BA8]">Email</p>
+            <p class="text-sm font-medium text-[#1B3C53] group-hover:text-[#456882] transition-colors">hello@dirga.dev</p>
+          </div>
+        </a>
+
+        <a
+          href="https://github.com/dirkaST"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 p-4 rounded-xl border border-[#E4DDD8] bg-white hover:border-[#456882] hover:shadow-sm transition-all group"
+        >
+          <div class="w-9 h-9 rounded-lg bg-[#1B3C53]/10 flex items-center justify-center">
+            <Icon name="material-symbols-light:code-blocks-outline-rounded" class="w-5 h-5 text-[#1B3C53]" />
+          </div>
+          <div>
+            <p class="text-xs text-[#8A9BA8]">GitHub</p>
+            <p class="text-sm font-medium text-[#1B3C53] group-hover:text-[#456882] transition-colors">@dirkaST</p>
+          </div>
+        </a>
+
+        <a
+          href="https://linkedin.com/in/dirga"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 p-4 rounded-xl border border-[#E4DDD8] bg-white hover:border-[#456882] hover:shadow-sm transition-all group"
+        >
+          <div class="w-9 h-9 rounded-lg bg-[#1B3C53]/10 flex items-center justify-center">
+            <Icon name="material-symbols-light:badge-outline-rounded" class="w-5 h-5 text-[#1B3C53]" />
+          </div>
+          <div>
+            <p class="text-xs text-[#8A9BA8]">LinkedIn</p>
+            <p class="text-sm font-medium text-[#1B3C53] group-hover:text-[#456882] transition-colors">Dirga</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
